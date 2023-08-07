@@ -1,0 +1,76 @@
+
+
+
+<div *ngIf="funcionarioSelecionado">
+  <app-titulo [titulo]="funcionarioSelecionado.nome"></app-titulo>
+  <button class="btn btn-deafult" (click)="back()">voltar</button>
+
+
+  <form [formGroup]="funcionarioForm" (submit)="funcionarioSubmit()">
+
+    <div class="mb-3">
+      <label class="form-label">Nome</label>
+      <input type="text" formControlName="nome" class="form-control"  >
+    </div>
+
+    <div class="mb-3">
+      <label  class="form-label">RG</label>
+      <input type="text" formControlName="RG" class="form-control" >
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Foto</label>
+      <input type="text" formControlName="foto" class="form-control" >
+    </div>
+
+    
+    <div class="mb-3">
+      <label  class="form-label">Departamento</label>
+      <input type="text" formControlName="DepartamentoId" class="form-control" >
+    </div>
+
+
+
+    <button type="submit" class="btn btn-primary" [disabled]="!funcionarioForm.valid">Submit</button>
+
+  </form>
+
+
+
+</div>
+
+<div *ngIf="!funcionarioSelecionado">
+  
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Nome</th>
+        <th scope="col">RG</th>
+        <th scope="col">Foto</th>
+        <th scope="col">Departamento</th>
+        <th class="col">Opções</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <tr *ngFor="let funcionarios of funcionarios" >
+        <th scope="row" >{{funcionarios.id}}</th>
+        <td>{{funcionarios.nome}}</td>
+        <td>{{funcionarios.RG}}</td>
+        <td>{{funcionarios.foto}}</td>
+        <td>{{funcionarios.DepartamentoId}}</td>
+        <td>
+          <div>
+            <button (click)="funcionarioSelect(funcionarios)">Detalhes</button>
+            <button>Editar</button>
+            <button>Excluir</button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  
+  </table>
+
+</div>
+
