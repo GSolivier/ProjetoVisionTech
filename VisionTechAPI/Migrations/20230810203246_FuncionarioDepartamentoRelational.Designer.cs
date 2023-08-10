@@ -11,8 +11,8 @@ using VisionTechAPI.Data;
 namespace VisionTechAPI.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230807205414_initial")]
-    partial class initial
+    [Migration("20230810203246_FuncionarioDepartamentoRelational")]
+    partial class FuncionarioDepartamentoRelational
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,10 +33,12 @@ namespace VisionTechAPI.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Sigla")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -55,13 +57,16 @@ namespace VisionTechAPI.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Foto")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("RG")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -73,7 +78,7 @@ namespace VisionTechAPI.Migrations
             modelBuilder.Entity("VisionTechAPI.Models.Funcionario", b =>
                 {
                     b.HasOne("VisionTechAPI.Models.Departamento", "Departamento")
-                        .WithMany("Funcionario")
+                        .WithMany("Funcionarios")
                         .HasForeignKey("DepartamentoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -83,7 +88,7 @@ namespace VisionTechAPI.Migrations
 
             modelBuilder.Entity("VisionTechAPI.Models.Departamento", b =>
                 {
-                    b.Navigation("Funcionario");
+                    b.Navigation("Funcionarios");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Funcionario } from '../models/Funcionario';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FuncionarioService } from './funcionario.service';
 
 @Component({
   selector: 'app-funcionarios',
@@ -13,33 +14,58 @@ export class FuncionariosComponent implements OnInit {
   titulo = 'Funcionários';
   funcionarioSelecionado: Funcionario;
 
-  funcionarios = [
-    {id: 1, nome:'Cleber', RG: '3333333', foto: 'imagem.png', DepartamentoId: 1},
-    {id: 2, nome:'Carlos', RG: '34343333', foto: 'imagem.png', DepartamentoId: 2},
-    {id: 3, nome:'Adriana', RG: '9087343333', foto: 'imagem.png', DepartamentoId: 3},
-    {id: 4, nome:'Alan', RG: '987089', foto: 'imagem.png', DepartamentoId: 4},
-    {id: 5, nome:'Flávia', RG: '33098', foto: 'imagem.png', DepartamentoId: 5},
-    {id: 6, nome:'Ademar', RG: '3330887', foto: 'imagem.png', DepartamentoId: 6},
-  ]
+  arr: Funcionario[] = [];
   
-  constructor(private fb: FormBuilder) { 
+  public funcionarios = this.arr;
+
+  constructor(private fb: FormBuilder, private funcionarioService: FuncionarioService) { 
     this.createForm();
+
+
   }
 
   ngOnInit() {
+    this.carregarFuncionario();
+  }
+
+  carregarFuncionario()
+  {
+    this.funcionarioService.getAll().subscribe(
+      (funcionarios: Funcionario[]) => {
+        this.funcionarios = funcionarios;
+      },
+      (erro: any) => {
+        console.error("ERRASSOOOOO: " + erro);
+      }
+    )
   }
 
   createForm() {
     this.funcionarioForm = this.fb.group({
+      id: [''],
       nome: ['', Validators.required],
-      RG: ['', Validators.required],
+      rg: ['', Validators.required],
       foto: ['', Validators.required],
-      DepartamentoId: ['', Validators.required]
+      departamentoId: ['', Validators.required]
     });
   }
 
+  funcionarioSave(funcionario: Funcionario){
+    this.funcionarioService.put(funcionario.id, funcionario).subscribe(
+      (funcionario: Funcionario) => {
+        console.log(funcionario)
+        this.carregarFuncionario()
+       this.funcionarioSelecionado = null;
+      },
+      (erro: any) => {
+        console.log(erro)
+      }
+    )
+  }
+
   funcionarioSubmit(){
-    console.log(this.funcionarioForm.value);
+    this.funcionarioSave(this.funcionarioForm.value)
+    
   }
 
   funcionarioSelect(funcionario: Funcionario){

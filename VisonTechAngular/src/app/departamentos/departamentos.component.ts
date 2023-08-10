@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from '@angular/core';
 import { Departamento } from '../models/Departamento';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalService, BsModalRef} from 'ngx-bootstrap/modal'
+import { DepartamentoService } from './departamento.service';
 
 @Component({
   selector: 'app-departamentos',
@@ -14,29 +15,22 @@ export class DepartamentosComponent implements OnInit {
   titulo = 'Departamentos';
   public departamentoSelecionado: Departamento;
 
-  departamentos = [
-
-    {id: 1, nome: 'Administrativo', sigla: 'ADM'},
-    {id: 2, nome: 'Financeiro', sigla: 'FIN'},
-    {id: 3, nome: 'Pessoal', sigla: 'PES'},
-    {id: 4, nome: 'Comercial', sigla: 'COM'},
-    {id: 5, nome: 'Marketing', sigla: 'MAR'},
-    {id: 6, nome: 'Produção', sigla: 'PRO'},
-    {id: 7, nome: 'Jurídico', sigla: 'JUR'},
-  ];
+  public departamentos: Departamento[];
 
 
 
-  constructor( private fb: FormBuilder) { 
+  constructor( private fb: FormBuilder, private departamentoService: DepartamentoService) { 
 
     this.createForm();
   }
 
   ngOnInit() {
+    this.carregarDepartamento()
   }
 
   createForm() {
     this.departamentoForm = this.fb.group({
+      id: [''],
       nome: ['', Validators.required],
       sigla: ['', Validators.required]
     })
@@ -55,6 +49,15 @@ export class DepartamentosComponent implements OnInit {
     this.departamentoSelecionado = null;
   }
 
-
+  carregarDepartamento(){
+    this.departamentoService.getAll().subscribe(
+      (departamento: Departamento[]) => {
+        this.departamentos = departamento
+      },
+      (erro: any) => {
+        console.error(erro)
+      }
+    )
+  }
 
 }
