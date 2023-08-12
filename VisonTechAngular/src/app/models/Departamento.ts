@@ -1,5 +1,15 @@
 export class Departamento {
-    id: Number;
+
+    /**
+     *
+     */
+    constructor() {
+        this.id = 0;
+        this.nome = '';
+        this.sigla = '';
+    }
+
+    id: number;
     nome: string;
     sigla: string;
 }

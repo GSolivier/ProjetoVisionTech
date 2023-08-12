@@ -1,29 +1,11 @@
 
+<div>
 
 
-<div *ngIf="departamentoSelecionado">
-  <app-titulo [titulo]="departamentoSelecionado.nome"></app-titulo>
-   
-    <button class="btn btn-default" (click)="back()">voltar</button>
-
-    <form [formGroup]="departamentoForm" (submit)="departamentoSubmit()">
-
-      <div class="mb-3">
-        <label class="form-label">Nome</label>
-        <input type="text" formControlName="nome" class="form-control"  >
-      </div>
-  
-      <div class="mb-3">
-        <label  class="form-label">RG</label>
-        <input type="text" formControlName="sigla" class="form-control" >
-      </div>
-  
-      <button type="submit" class="btn btn-primary" [disabled]="!departamentoForm.valid">Submit</button>
-  
-    </form>
-</div>
-
-<div *ngIf="!departamentoSelecionado">
+  <div class="top-body">
+    <h1 class="title">{{title}}</h1>
+    <button class="new" (click)="departamentoNew(template)">Cadastrar Departamento</button>
+  </div>
 
   <table class="table table-hover">
     <thead>
@@ -31,17 +13,22 @@
         <th scope="col">ID</th>
         <th scope="col">Nome</th>
         <th scope="col">Sigla</th>
-        <th class="col">Opções</th>
+        <th class="col"></th>
       </tr>
     </thead>
   
     <tbody>
-      <tr *ngFor="let departamentos of departamentos" (click)="departamentoSelect(departamentos)" >
-        <th scope="row" >{{departamentos.id}}</th>
+      <tr *ngFor="let departamentos of departamentos"  (click)="openModal(template, departamentos)" >
+        <th scope="row" class="id">{{departamentos.id}}</th>
         <td>{{departamentos.nome}}</td>
         <td>{{departamentos.sigla}}</td>
         <td>
-          <div class="btn-group"  >Funcionários</div>
+          <div class="options">
+            
+            <button (click)="departamentoSelect(departamentos)" class="edit" >Editar</button>
+            <button class="delete" (click)="departamentoDelete(departamentos.id)">Excluir</button>
+
+          </div>
         </td>
       </tr>
     </tbody>
@@ -51,17 +38,68 @@
 </div>
 
 
-<!-- <ng-template #template>
+ 
+<ng-template #template>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Modal</h4>
+    <h4 class="modal-title pull-left"><app-titulo [titulo]="departamentoSelecionado.nome" *ngIf="departamentoSelecionado.id != 0"></app-titulo></h4>
+
+    <h4 class="modal-title pull-left"><app-titulo [titulo]="'Novo Departamento'" *ngIf="departamentoSelecionado.id == 0"></app-titulo></h4>
+
     <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
+
   <div class="modal-body">
-    This is a modal.
+    
+    <form [formGroup]="departamentoForm" (submit)="departamentoSubmit()">
+
+      <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" formControlName="nome" class="form-control"  >
+      </div>
+  
+      <div class="mb-3">
+        <label  class="form-label">Sigla</label>
+        <input type="text" formControlName="sigla" class="form-control" >
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="!departamentoForm.valid" (click)="modalRef?.hide()">Salvar</button>
+  
+    </form>
+
+
+
+    <table class="table table-hover" *ngIf="departamentoSelecionado.id != 0">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nome</th>
+          <!-- <th scope="col">Departamento</th> -->
+        </tr>
+      </thead>
+    
+      <tbody>
+        <ng-container *ngFor="let funcionarios of funcionarios">
+
+          <ng-container *ngIf="departamentoSelecionado.id == funcionarios.departamentoId">
+          <tr>
+              <th scope="row" class="id" >{{funcionarios.id}}</th>
+              <td>{{funcionarios.nome}}</td>
+  
+            </tr>
+
+          </ng-container>
+          <span *ngIf="!funcionarios">Nenhum funcionário nesse departamento</span>
+        </ng-container>
+      </tbody>
+    
+    </table>
+
   </div>
-</ng-template> -->
+
+</ng-template>
 
 
 

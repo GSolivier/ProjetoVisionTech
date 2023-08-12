@@ -1,70 +1,92 @@
 
 
 
-<div *ngIf="funcionarioSelecionado">
-  <app-titulo [titulo]="funcionarioSelecionado.nome"></app-titulo>
-  <button class="btn btn-deafult" (click)="back()">voltar</button>
+<div *ngIf="funcionarioSelected" class="details">
 
+  <div class="form">
 
-  <form [formGroup]="funcionarioForm" (submit)="funcionarioSubmit()">
+    <!-- <div>
+      <app-titulo [titulo]="funcionarioSelected.id.toString()"></app-titulo>
+    </div> -->
+  
+    <form [formGroup]="funcionarioForm" (submit)="funcionarioSubmit()">
+  
+      <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" formControlName="nome" class="form-control"  >
+      </div>
+  
+      <div class="mb-3">
+        <label  class="form-label">RG</label>
+        <input type="text" formControlName="rg" class="form-control" >
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Foto</label>
+        <input type="text" formControlName="foto" class="form-control" required>
+      </div>
+      
+      <div class="select">
+        
+        <label class="form-label">Departamento</label>
 
-    <div class="mb-3">
-      <label class="form-label">Nome</label>
-      <input type="text" formControlName="nome" class="form-control"  >
-    </div>
+        <div class="button-select">
 
-    <div class="mb-3">
-      <label  class="form-label">RG</label>
-      <input type="text" formControlName="rg" class="form-control" >
-    </div>
+          <select name="" id="id-select" formControlName="departamentoId"  required>
+      
+            <option disabled selected value="0">Selecione o departamento</option>
+      
+            <option  *ngFor="let departamentos of departamentos" value="{{departamentos.id}}">{{departamentos.nome}}</option>
+            <div>
 
-    <div class="mb-3">
-      <label class="form-label">Foto</label>
-      <input type="text" formControlName="foto" class="form-control" >
-    </div>
+            </div>
+          </select>
 
+          <button type="submit" class="btn btn-primary" [disabled]="!funcionarioForm.valid">Salvar</button>
+
+        </div>
+      </div>
+  
     
-    <div class="mb-3">
-      <label  class="form-label">Departamento</label>
-      <input type="text" formControlName="departamentoId" class="form-control" >
-    </div>
+  
+    </form>
 
-
-
-    <button type="submit" class="btn btn-primary" [disabled]="!funcionarioForm.valid">Salvar</button>
-
-  </form>
-
-
+  </div>
 
 </div>
 
-<div *ngIf="!funcionarioSelecionado">
+<div *ngIf="!funcionarioSelected">
+
+  <div class="top-body">
+    <h1 class="title">{{title}}</h1>
+    <button class="new" (click)="funcionarioNew()">Cadastrar Funcionário</button>
+  </div>
   
   <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Nome</th>
-        <th scope="col">RG</th>
-        <th scope="col">Foto</th>
         <th scope="col">Departamento</th>
         <th class="col">Opções</th>
       </tr>
     </thead>
   
     <tbody>
-      <tr *ngFor="let funcionarios of funcionarios" >
-        <th scope="row" >{{funcionarios.id}}</th>
+      <tr *ngFor="let funcionarios of funcionarios">
+        <th scope="row" class="id" >{{funcionarios.id}}</th>
         <td>{{funcionarios.nome}}</td>
-        <td>{{funcionarios.rg}}</td>
-        <td>{{funcionarios.foto}}</td>
-        <td>{{funcionarios.departamentoId}}</td>
         <td>
-          <div>
-            <button (click)="funcionarioSelect(funcionarios)">Detalhes</button>
-            <button>Editar</button>
-            <button>Excluir</button>
+          <div *ngFor="let departamentos of departamentos">
+            <div *ngIf="funcionarios.departamentoId == departamentos.id">
+                {{departamentos.sigla}}
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="options">
+            <button (click)="funcionarioSelect(funcionarios)" class="edit">Editar</button>
+            <button class="delete" (click)="funcionarioDelete(funcionarios.id)">Excluir</button>
           </div>
         </td>
       </tr>
