@@ -20,7 +20,6 @@ import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
       HomeComponent,
       NavComponent,
       TituloComponent,
-
    ],
   imports: [
     BrowserModule,

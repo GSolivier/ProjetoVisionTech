@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using VisionTechAPI.Data;
 using VisionTechAPI.Repository;
 using VisionTechAPI.Repository.Interfaces;
@@ -18,6 +20,13 @@ builder.Services.AddCors(options => {
         policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
     }
     );
+});
+
+builder.Services.Configure<FormOptions>(o =>
+{
+    o.ValueLengthLimit = int.MaxValue;
+    o.MultipartBodyLengthLimit = int.MaxValue;
+    o.MemoryBufferThreshold = int.MaxValue;
 });
 
 
@@ -40,6 +49,13 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("MyPolicy");
+
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+    RequestPath = new PathString("/Resources")
+});
 
 // app.UseHttpsRedirection();
 

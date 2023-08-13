@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpEventType } from '@angular/common/http';
+import { EventEmitter, Injectable, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment.development';
 import { Funcionario } from '../models/Funcionario';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,9 @@ export class FuncionarioService {
 constructor(private http: HttpClient) { }
 
   baseUrl = `${environment.UrlPrincipal}/api/funcionario`;
-
+  progress: number;
+  message: string;
+  @Output() public onUploadFinished = new EventEmitter();
 
 
   getAll(): Observable<any> {
@@ -36,4 +39,5 @@ constructor(private http: HttpClient) { }
   delete (id: number) {
     return this.http.delete(`${this.baseUrl}/${id}`)
   }
+
 }

@@ -60,5 +60,6 @@ namespace VisionTechAPI.Controllers
 
             return Ok(apagado);
         }
+        
     }
 }

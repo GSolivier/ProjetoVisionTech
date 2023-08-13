@@ -21,9 +21,23 @@
         <input type="text" formControlName="rg" class="form-control" >
       </div>
   
-      <div class="mb-3">
+      <!-- <div class="mb-3">
         <label class="form-label">Foto</label>
         <input type="text" formControlName="foto" class="form-control" required>
+      </div> -->
+
+      <div class="mb-3">
+        <label for="form-label">Foto</label>
+        <input type="file" #file formControlName="foto" (change)="uploadFile(file.files)" class="form-control" style="display: none;">
+        <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+        <div class="col-md-4">
+          <span class="upload" *ngIf="progress > 0">
+            {{progress}}%
+          </span>
+          <span class="upload" *ngIf="message">
+            {{message}}
+          </span>
+        </div>
       </div>
       
       <div class="select">

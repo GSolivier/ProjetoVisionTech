@@ -31,6 +31,7 @@ namespace VisionTechAPI.Repository
 
         public async Task<Funcionario> AddFuncionario(Funcionario funcionario)
         {
+            
            await _dbContext.Funcionario.AddAsync(funcionario);
             await _dbContext.SaveChangesAsync();
 
