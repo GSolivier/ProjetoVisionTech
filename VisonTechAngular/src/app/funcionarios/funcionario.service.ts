@@ -13,9 +13,6 @@ export class FuncionarioService {
 constructor(private http: HttpClient) { }
 
   baseUrl = `${environment.UrlPrincipal}/api/funcionario`;
-  progress: number;
-  message: string;
-  @Output() public onUploadFinished = new EventEmitter();
 
 
   getAll(): Observable<any> {

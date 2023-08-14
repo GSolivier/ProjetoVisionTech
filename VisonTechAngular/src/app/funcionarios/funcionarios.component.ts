@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { Funcionario } from '../models/Funcionario';
 import { Departamento } from '../models/Departamento';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -22,6 +22,8 @@ export class FuncionariosComponent implements OnInit {
   public departamentos: Departamento[];
   public departamentoSelected: Departamento;
   public modo: string;
+  novaFoto: string;
+
 
 
   progress: number;
@@ -36,6 +38,11 @@ export class FuncionariosComponent implements OnInit {
     this.loadFuncionario();
     this.loadDepartamentos();
   }
+
+  updateFotoValue(fileName: string) {
+    this.funcionarioForm.get('foto').setValue(fileName);
+  }
+
 
   loadFuncionario()
   {
@@ -65,12 +72,13 @@ export class FuncionariosComponent implements OnInit {
       id: [''],
       nome: ['', Validators.required],
       rg: ['', Validators.required],
-      foto: ['', Validators.required],
+      foto: [''],
       departamentoId: [ '' , Validators.required]
     });
   }
 
-  funcionarioSave(funcionario: Funcionario){
+  funcionarioSave(funcionario: Funcionario, files){
+    
     if(funcionario.id == 0)
     {
       this.modo = 'post';
@@ -82,6 +90,36 @@ export class FuncionariosComponent implements OnInit {
 
     this.funcionarioService[this.modo](funcionario).subscribe(
       (funcionario: Funcionario) => {
+        this.novaFoto = `${funcionario.id}${funcionario.foto}`
+        funcionario.foto = this.novaFoto
+
+
+        if (files.length === 0) {
+          return;
+        }
+        let fileToUpload = <File>files[0];
+        const formData = new FormData();
+        formData.append('file', fileToUpload, `${funcionario.id}${fileToUpload.name}`);
+        
+        this.http.post('http://localhost:5058/api/upload', formData, {reportProgress: true, observe: 'events'})
+          .subscribe({
+            next: (event) => {
+    
+    
+            if (event.type === HttpEventType.UploadProgress)
+    
+              this.progress = Math.round(100 * event.loaded / event.total);
+    
+            else if (event.type === HttpEventType.Response) {
+              this.message = 'Upload success.';
+              this.onUploadFinished.emit(event.body);
+            }
+    
+          },
+          error: (err: HttpErrorResponse) => console.log(err)
+        });
+
+
         console.log(funcionario)
         this.loadFuncionario()
        this.funcionarioSelected = null;
@@ -92,8 +130,8 @@ export class FuncionariosComponent implements OnInit {
     )
   }
 
-  funcionarioSubmit(){
-    this.funcionarioSave(this.funcionarioForm.value)
+  funcionarioSubmit(files: any){
+    this.funcionarioSave(this.funcionarioForm.value, files)
   }
 
   funcionarioSelect(funcionario: Funcionario){
@@ -125,28 +163,41 @@ export class FuncionariosComponent implements OnInit {
     this.funcionarioSelected = null;
   }
 
-  uploadFile = (files) => {
-    if (files.length === 0) {
-      return;
-    }
-    let fileToUpload = <File>files[0];
-    const formData = new FormData();
-    formData.append('file', fileToUpload, fileToUpload.name);
+  // uploadFile = (files, funcionario: Funcionario) => {
+  //   if (files.length === 0) {
+  //     return;
+  //   }
+  //   let fileToUpload = <File>files[0];
+  //   const formData = new FormData();
+  //   formData.append('file', fileToUpload, `${funcionario.id}_${fileToUpload.name}`);
     
-    this.http.post('http://localhost:5058/api/upload', formData, {reportProgress: true, observe: 'events'})
-      .subscribe({
-        next: (event) => {
-        if (event.type === HttpEventType.UploadProgress)
-          this.progress = Math.round(100 * event.loaded / event.total);
-        else if (event.type === HttpEventType.Response) {
-          this.message = 'Upload success.';
-          this.onUploadFinished.emit(event.body);
-        }
-      },
-      error: (err: HttpErrorResponse) => console.log(err)
-    });
+  //   this.http.post('http://localhost:5058/api/upload', formData, {reportProgress: true, observe: 'events'})
+  //     .subscribe({
+  //       next: (event) => {
+
+
+  //       if (event.type === HttpEventType.UploadProgress)
+
+  //         this.progress = Math.round(100 * event.loaded / event.total);
+
+  //       else if (event.type === HttpEventType.Response) {
+  //         this.message = 'Upload success.';
+  //         this.onUploadFinished.emit(event.body);
+  //       }
+
+  //     },
+  //     error: (err: HttpErrorResponse) => console.log(err)
+  //   });
+  // }
+
+  public createImgPath = (id: number, foto: string) => { 
+    return `http://localhost:5058/Resources/Images/${id}${foto}`; 
   }
-    
+
+  uploadSingle(event) {
+    const fileName = event.target.files[0].name;
+  }
+
 
   }
 

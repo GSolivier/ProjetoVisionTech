@@ -9,7 +9,7 @@
       <app-titulo [titulo]="funcionarioSelected.id.toString()"></app-titulo>
     </div> -->
   
-    <form [formGroup]="funcionarioForm" (submit)="funcionarioSubmit()">
+    <form [formGroup]="funcionarioForm" (submit)="funcionarioSubmit(file.files)">
   
       <div class="mb-3">
         <label class="form-label">Nome</label>
@@ -28,8 +28,9 @@
 
       <div class="mb-3">
         <label for="form-label">Foto</label>
-        <input type="file" #file formControlName="foto" (change)="uploadFile(file.files)" class="form-control" style="display: none;">
-        <button type="button" class="btn btn-success" (click)="file.click()">Upload File</button>
+        <input type="file" #file class="form-control" (change)="uploadSingle($event)">
+      <input type="text" formControlName="foto" class="form-control" value="{{updateFotoValue(file.files[0]?.name)}}`">
+      
         <div class="col-md-4">
           <span class="upload" *ngIf="progress > 0">
             {{progress}}%
@@ -51,12 +52,13 @@
             <option disabled selected value="0">Selecione o departamento</option>
       
             <option  *ngFor="let departamentos of departamentos" value="{{departamentos.id}}">{{departamentos.nome}}</option>
+            
             <div>
 
             </div>
           </select>
 
-          <button type="submit" class="btn btn-primary" [disabled]="!funcionarioForm.valid">Salvar</button>
+          <button type="submit" class="btn btn-primary"  [disabled]="!funcionarioForm.valid">Salvar</button>
 
         </div>
       </div>
@@ -80,6 +82,7 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
+        <th scope="col">Foto</th>
         <th scope="col">Nome</th>
         <th scope="col">Departamento</th>
         <th class="col">Opções</th>
@@ -89,6 +92,7 @@
     <tbody>
       <tr *ngFor="let funcionarios of funcionarios">
         <th scope="row" class="id" >{{funcionarios.id}}</th>
+        <td><img [src]="createImgPath(funcionarios.id, funcionarios.foto)" style="width:60px; height:60px;" alt="aaaaaa"></td>
         <td>{{funcionarios.nome}}</td>
         <td>
           <div *ngFor="let departamentos of departamentos">
