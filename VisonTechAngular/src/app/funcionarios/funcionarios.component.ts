@@ -72,7 +72,7 @@ export class FuncionariosComponent implements OnInit {
       id: [''],
       nome: ['', Validators.required],
       rg: ['', Validators.required],
-      foto: [''],
+      foto: ['', Validators.required],
       departamentoId: [ '' , Validators.required]
     });
   }
@@ -93,7 +93,7 @@ export class FuncionariosComponent implements OnInit {
         this.novaFoto = `${funcionario.id}${funcionario.foto}`
         funcionario.foto = this.novaFoto
 
-
+        let fileName: string;
         if (files.length === 0) {
           return;
         }

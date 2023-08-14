@@ -28,17 +28,13 @@
 
       <div class="mb-3">
         <label for="form-label">Foto</label>
-        <input type="file" #file class="form-control" (change)="uploadSingle($event)">
-      <input type="text" formControlName="foto" class="form-control" value="{{updateFotoValue(file.files[0]?.name)}}`">
+        <input type="file" #file class="form-control" (change)="uploadSingle($event)" required>
+
+      <input type="text"  formControlName="foto" class="form-control" value="{{updateFotoValue(file.files[0]?.name)}}`" style="display: none;">
+
+      <img *ngIf="funcionarioSelected.id != 0" [src]="createImgPath(funcionarioSelected.id, funcionarioSelected.foto)" style="width:60px; height:60px;" alt="ProfilePic">
       
-        <div class="col-md-4">
-          <span class="upload" *ngIf="progress > 0">
-            {{progress}}%
-          </span>
-          <span class="upload" *ngIf="message">
-            {{message}}
-          </span>
-        </div>
+
       </div>
       
       <div class="select">
