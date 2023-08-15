@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\VisionTechAPI.csproj": {}
+    "d:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\VisionTechAPI.csproj": {}
   },
   "projects": {
-    "D:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\VisionTechAPI.csproj": {
+    "d:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\VisionTechAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\VisionTechAPI.csproj",
+        "projectUniqueName": "d:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\VisionTechAPI.csproj",
         "projectName": "VisionTechAPI",
-        "projectPath": "D:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\VisionTechAPI.csproj",
+        "projectPath": "d:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\VisionTechAPI.csproj",
         "packagesPath": "C:\\Users\\guilh\\.nuget\\packages\\",
-        "outputPath": "D:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\obj\\",
+        "outputPath": "d:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "D:\\Program Files\\Microsoft Visual Studio\\Shared\\NuGetPackages"
