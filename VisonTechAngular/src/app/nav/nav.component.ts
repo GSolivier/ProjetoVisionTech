@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { NavService } from './nav.service';
+import { faBuilding } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-nav',
@@ -12,8 +16,10 @@ departamentoSelecionado: string;
 back(){
     this.departamentoSelecionado = '';
 }
+faBuilding = faBuilding
+faUser = faUser
 
-  constructor() { }
+  constructor( public nav: NavService) { }
 
   ngOnInit() {
   }

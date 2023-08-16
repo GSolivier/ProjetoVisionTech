@@ -6,6 +6,7 @@ import { FuncionarioService } from './funcionario.service';
 import { DepartamentoService } from '../departamentos/departamento.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpErrorResponse, HttpEventType } from '@angular/common/http';
+import { NavService } from '../nav/nav.service';
 
 @Component({
   selector: 'app-funcionarios',
@@ -30,11 +31,12 @@ export class FuncionariosComponent implements OnInit {
   message: string;
   @Output() public onUploadFinished = new EventEmitter();
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private funcionarioService: FuncionarioService, private departamentoService: DepartamentoService) { 
+  constructor(private http: HttpClient, private fb: FormBuilder, private funcionarioService: FuncionarioService, private departamentoService: DepartamentoService, public nav: NavService) { 
     this.createForm();
   }
 
   ngOnInit() {
+    this.nav.hide()
     this.loadFuncionario();
     this.loadDepartamentos();
   }
@@ -163,32 +165,6 @@ export class FuncionariosComponent implements OnInit {
     this.funcionarioSelected = null;
   }
 
-  // uploadFile = (files, funcionario: Funcionario) => {
-  //   if (files.length === 0) {
-  //     return;
-  //   }
-  //   let fileToUpload = <File>files[0];
-  //   const formData = new FormData();
-  //   formData.append('file', fileToUpload, `${funcionario.id}_${fileToUpload.name}`);
-    
-  //   this.http.post('http://localhost:5058/api/upload', formData, {reportProgress: true, observe: 'events'})
-  //     .subscribe({
-  //       next: (event) => {
-
-
-  //       if (event.type === HttpEventType.UploadProgress)
-
-  //         this.progress = Math.round(100 * event.loaded / event.total);
-
-  //       else if (event.type === HttpEventType.Response) {
-  //         this.message = 'Upload success.';
-  //         this.onUploadFinished.emit(event.body);
-  //       }
-
-  //     },
-  //     error: (err: HttpErrorResponse) => console.log(err)
-  //   });
-  // }
 
   public createImgPath = (id: number, foto: string) => { 
     return `http://localhost:5058/Resources/Images/${id}${foto}`; 

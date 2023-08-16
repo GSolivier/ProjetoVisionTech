@@ -1,2 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
 @import url('../node_modules/bootstrap/dist/css/bootstrap.min.css');
+html, body, app-root {
+    height: 100%;
+    position: relative;
+  }
+
+app-root {
+
+min-height: 100%;
+    
+display: block;
+    
+position: relative;
+    
+padding-bottom: 56px; 
+    
+}
+
+body{
+margin: 0;
+background-image: url(assets/concentric_background.png);
+background-repeat: no-repeat;
+background-size: cover;
+}
+
+app-footer{
+position: absolute;
+
+bottom: 0;
+
+width: 100%;
+}

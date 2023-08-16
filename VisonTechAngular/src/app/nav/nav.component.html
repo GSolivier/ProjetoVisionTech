@@ -1,25 +1,31 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
 
-  <div class="container">
+<section class="dashboard" *ngIf="nav.visible">
+    
 
-    <a class="navbar-brand" routerLink="home">VisionTech</a>
+  <a  routerLink="departamentos" id="departamentos">
+    
+    <button >
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+          <img src="../../assets/building.png" alt="">
+          <h1>Departamentos</h1>
 
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      </button>
 
-      <div class="navbar-nav">
 
-        <a class="nav-link" routerLinkActive="active"  aria-current="page" routerLink="departamentos" (click)="back()">Departamentos</a>
+  </a>
 
-        <a class="nav-link" routerLinkActive="active" routerLink="funcionarios">Funcionários</a>
-        
-      </div>
+  <a  routerLink="funcionarios" id="departamentos">
+    
+    <button >
 
-    </div>
+          <img src="../../assets/workers.png" alt="">
+          
+          <h1>Funcionários</h1>
 
-  </div>
+      </button>
 
-</nav>
+
+  </a>
+
+
+</section>

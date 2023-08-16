@@ -1,10 +1,9 @@
 
-<div>
-
+<div *ngIf="!departamentoSelecionado">
 
   <div class="top-body">
     <h1 class="title">{{title}}</h1>
-    <button class="new" (click)="departamentoNew(template)">Cadastrar Departamento</button>
+    <button class="new" (click)="departamentoNew()">Cadastrar Departamento</button>
   </div>
 
   <table class="table table-hover">
@@ -25,7 +24,7 @@
         <td>
           <div class="options">
             
-            <button  class="edit" (click)="openModal(template, departamentos)">Editar</button>
+            <button  class="edit" (click)="departamentoSelect(departamentos)">Editar</button>
 
             <button class="delete" (click)="departamentoDelete(departamentos.id)">Excluir</button>
 
@@ -38,69 +37,127 @@
 
 </div>
 
+<div *ngIf="departamentoSelecionado">
+  <form [formGroup]="departamentoForm" (submit)="departamentoSubmit()">
 
- 
-<ng-template #template>
-  <div class="modal-header">
-    <h4 class="modal-title pull-left"><app-titulo [titulo]="departamentoSelecionado.nome" *ngIf="departamentoSelecionado.id != 0"></app-titulo></h4>
+    <div class="mb-3">
+      <label class="form-label">Nome</label>
+      <input type="text" formControlName="nome" class="form-control"  >
+    </div>
 
-    <h4 class="modal-title pull-left"><app-titulo [titulo]="'Novo Departamento'" *ngIf="departamentoSelecionado.id == 0"></app-titulo></h4>
+    <div class="mb-3">
+      <label  class="form-label">Sigla</label>
+      <input type="text" formControlName="sigla" class="form-control" >
+    </div>
 
-    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="modalRef?.hide()">
+    <button type="submit" class="btn btn-primary" [disabled]="!departamentoForm.valid" >Salvar</button>
+    <button class="btn btn-btn" (click)="back()">Voltar</button>
+    <button  (click)="funcionarioNew()">Cadastrar Funcionário</button>
 
-      <span aria-hidden="true" class="visually-hidden">&times;</span>
-    </button>
-  </div>
-
-  <div class="modal-body">
-    
-    <form [formGroup]="departamentoForm" (submit)="departamentoSubmit()">
-
-      <div class="mb-3">
-        <label class="form-label">Nome</label>
-        <input type="text" formControlName="nome" class="form-control"  >
-      </div>
+  </form>
   
-      <div class="mb-3">
-        <label  class="form-label">Sigla</label>
-        <input type="text" formControlName="sigla" class="form-control" >
-      </div>
+  <table class="table table-hover" *ngIf="departamentoSelecionado.id != 0">
+
   
-      <button type="submit" class="btn btn-primary" [disabled]="!departamentoForm.valid" (click)="modalRef?.hide()">Salvar</button>
-  
-    </form>
 
-
-
-    <table class="table table-hover" *ngIf="departamentoSelecionado.id != 0">
       <thead>
         <tr>
           <th scope="col">ID</th>
+          <th scope="col">Foto</th>
           <th scope="col">Nome</th>
-          <!-- <th scope="col">Departamento</th> -->
+          <th class="col">Opções</th>
         </tr>
       </thead>
     
       <tbody>
         <ng-container *ngFor="let funcionarios of funcionarios">
 
-          <ng-container *ngIf="departamentoSelecionado.id == funcionarios.departamentoId">
-          <tr>
-              <th scope="row" class="id" >{{funcionarios.id}}</th>
-              <td>{{funcionarios.nome}}</td>
-  
-            </tr>
+              <ng-container *ngIf="departamentoSelecionado.id == funcionarios.departamentoId" >
 
-          </ng-container>
-          <span *ngIf="!funcionarios">Nenhum funcionário nesse departamento</span>
+  <tr >
+    <th scope="row" class="id" >{{funcionarios.id}}</th>
+    <td><img [src]="createImgPath(funcionarios.id, funcionarios.foto)" style="width:60px; height:60px;" alt="Profile Pic"></td>
+    <td>{{funcionarios.nome}}</td>
+ 
+    <td>
+      <div class="options">
+        <button (click)="funcionarioSelect(funcionarios)" class="edit">Editar</button>
+        <button class="delete" (click)="funcionarioDelete(funcionarios.id)">Excluir</button>
+      </div>
+    </td>
+  </tr>
+
+
+</ng-container>
+
+
         </ng-container>
       </tbody>
+
+  
+  </table>
+</div>
+
+
+
+
+<div *ngIf="funcionarioSelected" class="details">
+
+  <div class="form">
+
+  
+    <form [formGroup]="funcionarioForm" (submit)="funcionarioSubmit(file.files)">
+  
+      <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" formControlName="nome" class="form-control"  >
+      </div>
+  
+      <div class="mb-3">
+        <label  class="form-label">RG</label>
+        <input type="text" formControlName="rg" class="form-control" >
+      </div>
+
+
+      <div class="mb-3">
+        <label for="form-label">Foto</label>
+        <input type="file" #file class="form-control" (change)="uploadSingle($event)" required>
+
+      <input type="text"  formControlName="foto" class="form-control" value="{{updateFotoValue(file.files[0]?.name)}}`" style="display: none;">
+
+      <img *ngIf="funcionarioSelected.id != 0" [src]="createImgPath(funcionarioSelected.id, funcionarioSelected.foto)" style="width:60px; height:60px;" alt="ProfilePic">
+      
+
+      </div>
+      
+      <div class="select">
+        
+        <label class="form-label">Departamento</label>
+
+        <div class="button-select">
+
+          <select name="" id="id-select" formControlName="departamentoId" >
+      
+            <option disabled selected value="0">Selecione o departamento</option>
+      
+            <option  value="{{departamentoSelecionado.id}}">{{departamentoSelecionado.nome}}</option>
+            
+            <div>
+
+            </div>
+          </select>
+
+          <button type="submit" class="btn btn-primary"  [disabled]="!funcionarioForm.valid">Salvar</button>
+
+        </div>
+      </div>
+  
     
-    </table>
+  
+    </form>
 
   </div>
 
-</ng-template>
-
+</div>
 
 

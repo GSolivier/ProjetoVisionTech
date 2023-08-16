@@ -5,9 +5,6 @@
 
   <div class="form">
 
-    <!-- <div>
-      <app-titulo [titulo]="funcionarioSelected.id.toString()"></app-titulo>
-    </div> -->
   
     <form [formGroup]="funcionarioForm" (submit)="funcionarioSubmit(file.files)">
   
@@ -20,11 +17,7 @@
         <label  class="form-label">RG</label>
         <input type="text" formControlName="rg" class="form-control" >
       </div>
-  
-      <!-- <div class="mb-3">
-        <label class="form-label">Foto</label>
-        <input type="text" formControlName="foto" class="form-control" required>
-      </div> -->
+
 
       <div class="mb-3">
         <label for="form-label">Foto</label>

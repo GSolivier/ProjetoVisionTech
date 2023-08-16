@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "mjSDTJpflsiPBv5zJTtUBT1lyw549fRuTYUsiV7u+L5XPCQcQs0w4yrmUTWAmzUE3IJmQngxsogoxwMUZEN7/Q==",
+  "dgSpecHash": "1eHyhStewZJ8AtW957NMJELmNJpnPn5n3YL942gdQ5y4YkYCXR29IZGMhcoZeD65xOZI4vUjHhtmFmBlCz1JNg==",
   "success": true,
-  "projectFilePath": "d:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\VisionTechAPI.csproj",
+  "projectFilePath": "D:\\OneDrive - SESISENAISP - Escolas\\Área de Trabalho\\ProjetoVisionTech\\VisionTechAPI\\VisionTechAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\guilh\\.nuget\\packages\\azure.core\\1.24.0\\azure.core.1.24.0.nupkg.sha512",
     "C:\\Users\\guilh\\.nuget\\packages\\azure.identity\\1.6.0\\azure.identity.1.6.0.nupkg.sha512",

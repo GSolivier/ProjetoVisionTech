@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { faBuilding } from '@fortawesome/free-solid-svg-icons';
+import { NavService } from '../nav/nav.service';
 
 @Component({
   selector: 'app-home',
@@ -8,9 +10,12 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
 
   titulo = 'Página principal'
-  constructor() { }
+  constructor(public nav: NavService) { }
+
+  faBuilding = faBuilding
 
   ngOnInit() {
+    this.nav.show();
   }
 
 }

@@ -11,15 +11,18 @@ import { TituloComponent } from './titulo/titulo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
+import { FooterComponent } from './footer/footer.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
-  declarations: [					
+  declarations: [						
     AppComponent,
       DepartamentosComponent,
       FuncionariosComponent,
       HomeComponent,
       NavComponent,
       TituloComponent,
+      FooterComponent
    ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ModalModule
+    ModalModule,
+    FontAwesomeModule
   ],
   providers: [BsModalService],
   bootstrap: [AppComponent]
