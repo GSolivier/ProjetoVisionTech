@@ -71,7 +71,7 @@ export class DepartamentosComponent implements OnInit {
 
       (departamento: Departamento) => {
 
-        console.log(Departamento)
+        console.log(departamento)
         this.loadDepartamentos()
        this.departamentoSelecionado = null;
 

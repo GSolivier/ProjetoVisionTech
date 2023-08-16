@@ -51,48 +51,50 @@
     </div>
 
     <button type="submit" class="btn btn-primary" [disabled]="!departamentoForm.valid" >Salvar</button>
-    <button class="btn btn-btn" (click)="back()">Voltar</button>
-    <button  (click)="funcionarioNew()">Cadastrar Funcionário</button>
-
-  </form>
-  
-  <table class="table table-hover" *ngIf="departamentoSelecionado.id != 0">
-
-  
-
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Foto</th>
-          <th scope="col">Nome</th>
-          <th class="col">Opções</th>
-        </tr>
-      </thead>
     
-      <tbody>
-        <ng-container *ngFor="let funcionarios of funcionarios">
+  </form>
+  <button class="btn btn-btn" (click)="back()">Voltar</button>
+  <button  (click)="funcionarioNew()">Cadastrar Funcionário</button>
+  
+  <table id="tableid" class="table table-hover" *ngIf="funcionarios.length">
 
-              <ng-container *ngIf="departamentoSelecionado.id == funcionarios.departamentoId" >
 
+    
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Foto</th>
+        <th scope="col">Nome</th>
+        <th class="col">Opções</th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <ng-container *ngFor="let funcionarios of funcionarios">
+  
+            <ng-container *ngIf="departamentoSelecionado.id == funcionarios.departamentoId" >
+  
   <tr >
-    <th scope="row" class="id" >{{funcionarios.id}}</th>
-    <td><img [src]="createImgPath(funcionarios.id, funcionarios.foto)" style="width:60px; height:60px;" alt="Profile Pic"></td>
-    <td>{{funcionarios.nome}}</td>
- 
-    <td>
-      <div class="options">
-        <button (click)="funcionarioSelect(funcionarios)" class="edit">Editar</button>
-        <button class="delete" (click)="funcionarioDelete(funcionarios.id)">Excluir</button>
-      </div>
-    </td>
+  <th scope="row" class="id" >{{funcionarios.id}}</th>
+  <td><img [src]="createImgPath(funcionarios.id, funcionarios.foto)" style="width:60px; height:60px;" alt="Profile Pic"></td>
+  <td>{{funcionarios.nome}}</td>
+  
+  <td>
+    <div class="options">
+      <button (click)="funcionarioSelect(funcionarios)" class="edit">Editar</button>
+      <button class="delete" (click)="funcionarioDelete(funcionarios.id)">Excluir</button>
+    </div>
+  </td>
   </tr>
+  
+  
+  </ng-container>
+  
+  
+      </ng-container>
+    </tbody>
 
 
-</ng-container>
-
-
-        </ng-container>
-      </tbody>
 
   
   </table>
