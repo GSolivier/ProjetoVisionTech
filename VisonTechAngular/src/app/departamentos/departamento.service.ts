@@ -15,25 +15,23 @@ constructor(private http: HttpClient) { }
 
 
 
-  getAll(): Observable<any> {
-
-    return this.http.get(`${this.baseUrl}`);
-
+  getAll(): Observable<Departamento[]> {
+    return this.http.get<Departamento[]>(`${this.baseUrl}`);
   }
 
   getById (id: number): Observable<Departamento> {
     return this.http.get<Departamento>(`${this.baseUrl}/${id}`)
   }
 
-  post(departamento: Departamento){
-    return this.http.post(`${this.baseUrl}`, departamento)
+  post(departamento: Departamento): Observable<Departamento>{
+    return this.http.post<Departamento>(`${this.baseUrl}`, departamento)
   }
 
-  put(departamento: Departamento){
-    return this.http.put(`${this.baseUrl}/${departamento.id}`, departamento)
+  put(departamento: Departamento): Observable<Departamento>{
+    return this.http.put<Departamento>(`${this.baseUrl}/${departamento.id}`, departamento)
   }
 
-  delete (id: number) {
-    return this.http.delete(`${this.baseUrl}/${id}`)
+  delete (id: number): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.baseUrl}/${id}`)
   }
 }

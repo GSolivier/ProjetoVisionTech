@@ -1,94 +1,22 @@
-<div *ngIf="funcionarioSelected" class="details">
-  <div class="form">
-    <form
-      [formGroup]="funcionarioForm"
-      (submit)="funcionarioSubmit(file.files)"
-    >
-      <div class="mb-3">
-        <label class="form-label">Nome</label>
-        <input type="text" formControlName="nome" class="form-control" />
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">RG</label>
-        <input type="text" formControlName="rg" class="form-control" />
-      </div>
-
-      <div class="mb-3">
-        <label for="form-label">Foto</label>
-        <input
-          type="file"
-          #file
-          class="form-control"
-          (change)="uploadSingle($event)"
-        />
-
-        <input
-          type="text"
-          *ngIf="!funcionarioSelected.foto"
-          formControlName="foto"
-          class="form-control"
-          value="{{ updateFotoValue(file.files[0]?.name) }}`"
-          style="display: none"
-        />
-
-        <img
-          *ngIf="funcionarioSelected.id != 0"
-          [src]="
-            createImgPath(funcionarioSelected.id, funcionarioSelected.foto)
-          "
-          style="width: 60px; height: 60px"
-          alt="ProfilePic"
-        />
-      </div>
-
-      <div class="select">
-        <label class="form-label">Departamento</label>
-
-        <div class="button-select">
-          <select name="" id="id-select" formControlName="departamentoId">
-            <option disabled selected value="0">
-              Selecione o departamento
-            </option>
-
-            <option
-              *ngFor="let departamentos of departamentos"
-              value="{{ departamentos.id }}"
-            >
-              {{ departamentos.nome }}
-            </option>
-
-            <div></div>
-          </select>
-
-          <button
-            type="submit"
-            class="btn btn-primary"
-            [disabled]="!funcionarioForm.valid"
-          >
-            Salvar
-          </button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
+<!-- Tabela de listagem de todos os funcionarios da empresa -->
 
 <div *ngIf="!funcionarioSelected" class="gradient-background">
   <h1 class="title">{{ title }}</h1>
   <div class="top-body">
-    <button  class="new" (click)="funcionarioNew()"><fa-icon [icon]="faPlus"></fa-icon> <fa-icon [icon]="faUser" size="2x"></fa-icon></button>
-
+    <button class="new" (click)="funcionarioNew()">
+      <fa-icon [icon]="faPlus"></fa-icon>
+      <fa-icon [icon]="faUser" size="2x"></fa-icon>
+    </button>
   </div>
 
   <table>
     <thead>
       <tr>
-        <th >ID</th>
-        <th >Foto</th>
-        <th >Nome</th>
-        <th >Departamento</th>
-        <th >Opções</th>
+        <th>ID</th>
+        <th>Foto</th>
+        <th>Nome</th>
+        <th>Departamento</th>
+        <th>Opções</th>
       </tr>
     </thead>
 
@@ -96,11 +24,8 @@
       <tr class="table-line" *ngFor="let funcionarios of funcionarios">
         <td scope="row" class="number">{{ funcionarios.id }}</td>
         <td>
-          <img
-            [src]="createImgPath(funcionarios.id, funcionarios.foto)"
-            style="width: 60px; height: 60px"
-            alt="aaaaaa"
-          />
+          <img [src]="createImgPath(funcionarios.id, funcionarios.foto)"
+            style="width: 60px; height: 60px; border-radius: 30px;" alt="aaaaaa" />
         </td>
         <td>{{ funcionarios.nome }}</td>
         <td>
@@ -115,15 +40,106 @@
             <button (click)="funcionarioSelect(funcionarios)" class="edit">
               <fa-icon [icon]="faPen"></fa-icon>
             </button>
-            <button
-              class="delete"
-              (click)="funcionarioDelete(funcionarios.id)"
-            >
-            <fa-icon [icon]="faTrashCan"></fa-icon>
+            <button class="delete" (click)="openModal(template, funcionarios)">
+              <fa-icon [icon]="faTrashCan"></fa-icon>
             </button>
           </div>
         </td>
       </tr>
     </tbody>
   </table>
+</div>
+
+
+<!-- Modal de warning quando deletar um funcionario -->
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Excluir funcionário: {{funcionarioSelectedDel.nome}}</h4>
+
+  </div>
+  <div class="modal-body">
+    <p>Tem certeza que deseja excluir o funcionário {{funcionarioSelectedDel.nome}}?</p>
+    <p style="color: red;">ESSA AÇÃO É IRREVERSÍVEL!</p>
+    <button class="delete" (click)="funcionarioDelete(funcionarioSelectedDel.id)" (click)="modalRef?.hide()"
+      style="width: 100px; margin-right: 20px;">Excluir</button>
+    <button class="edit" (click)="modalRef?.hide()" style="width: 100px;">Cancelar</button>
+  </div>
+</ng-template>
+
+
+<!-- Formulario de Cadastro e atualização do funcionario -->
+
+<div *ngIf="funcionarioSelected" class="details">
+
+  <div class="top-body-start">
+
+    <button class="btn btn-btn btn-back" (click)="back()"><fa-icon [icon]="faArrowLeft" size="2x"></fa-icon></button>
+    <h1 *ngIf="funcionarioSelected.id == 0">Novo Funcionário</h1>
+    <h1 *ngIf="funcionarioSelected.id != 0">Editar Funcionário</h1>
+
+  </div>
+
+  <div class="form">
+
+    <form [formGroup]="funcionarioForm" (submit)="funcionarioSubmit(file.files)">
+
+      <div class="img-input">
+
+        <div class="preview">
+
+          <img *ngIf="funcionarioSelected.id != 0" [src]="
+              createImgPath(funcionarioSelected.id, funcionarioSelected.foto)
+            " alt="ProfilePic" />
+          <img *ngIf="funcionarioSelected.id == 0" src="../../assets/placeholder.jpg" alt="ProfilePic" />
+        </div>
+
+        <div class="inputs">
+
+          <div class="mb-3">
+            <label class="form-label">Nome completo</label>
+            <input type="text" formControlName="nome" class="form-control" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">RG</label>
+            <input type="text" formControlName="rg" mask="00.000.000-0" class="form-control" />
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="mb-3">
+        <label for="form-label">Foto</label>
+        <input type="file" #file class="form-control" (change)="uploadSingle($event)" />
+
+        <input type="text" formControlName="foto" class="form-control"
+          value="{{ updateFotoValue(file.files[0]?.name) }}`" style="display: none;" />
+
+      </div>
+
+
+      <div class="select">
+        <label class="form-label">Departamento</label>
+
+        <div class="button-select">
+          <select name="" id="id-select" formControlName="departamentoId">
+            <option disabled selected value="0">
+              Selecione o departamento
+            </option>
+
+            <option *ngFor="let departamentos of departamentos" value="{{ departamentos.id }}">
+              {{ departamentos.nome }}
+            </option>
+
+          </select>
+
+          <button type="submit" class="btn btn-primary" [disabled]="!funcionarioForm.valid">
+            Salvar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>

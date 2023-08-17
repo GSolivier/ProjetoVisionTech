@@ -21,14 +21,14 @@ namespace VisionTechAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Departamento>>> Listar()
+        public async Task<ActionResult<List<Departamento>>> DepartamentoList()
         {
             List<Departamento> departamentos = await _iDepartamento.GetDepartamentos();
             return Ok(departamentos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Departamento>> BuscarDepartamento(int id)
+        public async Task<ActionResult<Departamento>> DepartamentoById(int id)
         {
             Departamento departamento = await _iDepartamento.GetDepartamentoById(id);
             return Ok(departamento);
@@ -36,7 +36,7 @@ namespace VisionTechAPI.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult<Departamento>> Cadastrar([FromBody] Departamento departamento) {
+        public async Task<ActionResult<Departamento>> DepartamentoPost([FromBody] Departamento departamento) {
             
             Departamento novoDepartamento = await _iDepartamento.AddDepartamento(departamento);
 
@@ -45,7 +45,7 @@ namespace VisionTechAPI.Controllers
 
         [HttpPut("{id}")]
 
-        public async Task<ActionResult<Departamento>> Atualizar([FromBody] Departamento departamento, int id) {
+        public async Task<ActionResult<Departamento>> DepartamentoUpdate([FromBody] Departamento departamento, int id) {
             
             departamento.Id = id;
 
@@ -56,7 +56,7 @@ namespace VisionTechAPI.Controllers
 
         [HttpDelete("{id}")]
 
-            public async Task<ActionResult<Funcionario>> Apagar(int id) {
+            public async Task<ActionResult<Funcionario>> DepartamentoDelete(int id) {
             
             bool apagado = await _iDepartamento.DeleteDepartamento(id);
 

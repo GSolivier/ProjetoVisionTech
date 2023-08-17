@@ -16,27 +16,40 @@ import { faBuilding, faPlus, faPen, faTrashCan, faArrowLeft, faUser} from '@fort
 })
 export class DepartamentosComponent implements OnInit {
 
+   // Titulo do componente
+  public title = 'Departamentos';
+
+   //Declaração dos formularios do componente
   public departamentoForm: FormGroup;
   public funcionarioForm: FormGroup;
-  public title = 'Departamentos';
-  public departamentoSelecionado: Departamento;
+
+  //Variavel para armazenar quando um funcionário ou departamento for selecionado
+  public departamentoSelected: Departamento;
+  public departamentoSelectedDel: Departamento;
   public funcionarioSelected: Funcionario;
+
+ //Variaveis para armazenar os arrays de departamentos e funcionario
   public departamentos: Departamento[];
   public funcionarios: Funcionario[];
+
+   // string para armazenar o modo: put ou post, na função funcionarioSave()
   public modo: string;
+
+  //Atributo do modal
   modalRef?: BsModalRef;
+
+  //string que muda o nome da foto
   novaFoto: string;
 
+  // icones do fontawesome
   faBuilding = faBuilding;
   faPlus = faPlus;
   faPen = faPen;
   faTrashCan = faTrashCan;
   faArrowLeft = faArrowLeft;
   faUser = faUser
+  
 
-  progress: number;
-  message: string;
-  @Output() public onUploadFinished = new EventEmitter();
 
 
   constructor( private fb: FormBuilder, private fbF: FormBuilder, private departamentoService: DepartamentoService,private funcionarioService: FuncionarioService, private modalService: BsModalService, public nav: NavService, private http: HttpClient) { 
@@ -45,25 +58,41 @@ export class DepartamentosComponent implements OnInit {
     this.createFormF();
 
   }
-
+  
   ngOnInit() {
     this.nav.hide()
     this.loadDepartamentos()
     this.loadFuncionario()
   }
 
+    //Função responsável por listar todos os departamentos
+  loadDepartamentos(){
+  this.departamentoService.getAll().subscribe(
+    (departamento: Departamento[]) => {
+      this.departamentos = departamento
+    },
+    (erro: any) => {
+      console.error(erro)
+    }
+  )
+}
+
+  //Função para criar o formulário do departamento
   createForm() {
     this.departamentoForm = this.fb.group({
-
       id: [''],
       nome: ['', Validators.required],
       sigla: ['', Validators.required]
-
     })
   }
 
-  
+// Modal do Warning de exclusao do departamento
+  openModal(template: TemplateRef<any>, departamento: Departamento) {
+    this.departamentoSelectedDel = departamento;
+    this.modalRef = this.modalService.show(template);
+  }
 
+// Função utilizada tanto pata salvar quanto para cadastrar o funcionario
   departamentoSave(departamento: Departamento){
 
     if(departamento.id == 0)
@@ -81,7 +110,7 @@ export class DepartamentosComponent implements OnInit {
 
         console.log(departamento)
         this.loadDepartamentos()
-       this.departamentoSelecionado = null;
+       this.departamentoSelected = null;
 
       },
       (erro: any) => {
@@ -90,18 +119,21 @@ export class DepartamentosComponent implements OnInit {
     )
   }
 
+  // Ao dar submit no formulário do departamento, chama a função departamentoSubmit(), que chama a função departamentoSave(), passando como parametro o formulario criado.
   departamentoSubmit(){
     this.departamentoSave(this.departamentoForm.value)
   }
 
+  //Essa função é responsável por selecionar um departamento, e atribuir esse departamento a variavel departamentoSelected
   departamentoSelect(departamento: Departamento){
-      this.departamentoSelecionado = departamento;
+      this.departamentoSelected = departamento;
       this.departamentoForm.patchValue(departamento)
   }
 
+
   departamentoNew(){
-    this.departamentoSelecionado = new Departamento();
-    this.departamentoForm.patchValue(this.departamentoSelecionado)
+    this.departamentoSelected = new Departamento();
+    this.departamentoForm.patchValue(this.departamentoSelected)
   }
 
   departamentoDelete(id: number){
@@ -114,20 +146,21 @@ export class DepartamentosComponent implements OnInit {
     )
   }
 
+  // Função que da unselect tanto em funcionario quanto em departamento.
   back(){
     this.funcionarioSelected = null;
-    this.departamentoSelecionado = null;
+    this.departamentoSelected = null;
   }
 
 
   //*********************************************************** */
 
-
+//Função responsável por passar o nome do arquivo ao campo do formulario formControllName = "foto", 
   updateFotoValue(fileName: string) {
     this.funcionarioForm.get('foto').setValue(fileName);
   }
 
-
+  //Função alimentada pela API que é responsavel por listar todos os funcionarios
   loadFuncionario()
   {
     this.funcionarioService.getAll().subscribe(
@@ -140,17 +173,7 @@ export class DepartamentosComponent implements OnInit {
     )
   }
 
-    loadDepartamentos(){
-    this.departamentoService.getAll().subscribe(
-      (departamento: Departamento[]) => {
-        this.departamentos = departamento
-      },
-      (erro: any) => {
-        console.error(erro)
-      }
-    )
-  }
-
+//Função que cria o formulário do funcionário
   createFormF() {
     this.funcionarioForm = this.fbF.group({
       id: [''],
@@ -161,6 +184,7 @@ export class DepartamentosComponent implements OnInit {
     });
   }
 
+    //Função para salvar ou cadastrar um funcionário, essa função tambem é responsável pelo upload da imagem.
   funcionarioSave(funcionario: Funcionario, files){
     
     if(funcionario.id == 0)
@@ -185,24 +209,11 @@ export class DepartamentosComponent implements OnInit {
         const formData = new FormData();
         formData.append('file', fileToUpload, `${funcionario.id}${fileToUpload.name}`);
         
-        this.http.post('http://localhost:5058/api/upload', formData, {reportProgress: true, observe: 'events'})
+        this.http.post('http://localhost:5058/api/upload', formData)
           .subscribe({
-            next: (event) => {
-    
-    
-            if (event.type === HttpEventType.UploadProgress)
-    
-              this.progress = Math.round(100 * event.loaded / event.total);
-    
-            else if (event.type === HttpEventType.Response) {
-              this.message = 'Upload success.';
-              this.onUploadFinished.emit(event.body);
-            }
-    
-          },
+            next: (event) => {},
           error: (err: HttpErrorResponse) => console.log(err)
         });
-
 
         console.log(funcionario)
         this.loadFuncionario()
@@ -242,7 +253,7 @@ export class DepartamentosComponent implements OnInit {
     )
   }
 
-
+//Função que cria o caminho até a pasta que as imagens upadas estão armazenadas
   public createImgPath = (id: number, foto: string) => { 
     return `http://localhost:5058/Resources/Images/${id}${foto}`; 
   }
@@ -250,14 +261,5 @@ export class DepartamentosComponent implements OnInit {
   uploadSingle(event) {
     const fileName = event.target.files[0].name;
   }
-
-  selectImage()
-{
-  let input = document.createElement('input');
-  input.type = 'file';
-  input.accept="image/*";
-  input.click();
-}
-
 
 }

@@ -19,14 +19,14 @@ namespace VisionTechAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Funcionario>>> Listar()
+        public async Task<ActionResult<List<Funcionario>>> FuncionarioList()
         {
             List<Funcionario> funcionarios = await _iFuncionario.GetFuncionarios();
             return Ok(funcionarios);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Funcionario>> BuscarFuncionario(int id)
+        public async Task<ActionResult<Funcionario>> FuncionarioById(int id)
         {
             Funcionario funcionario = await _iFuncionario.GetFuncionarioById(id);
             return Ok(funcionario);
@@ -34,7 +34,7 @@ namespace VisionTechAPI.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult<Funcionario>> Cadastrar([FromBody] Funcionario funcionario) {
+        public async Task<ActionResult<Funcionario>> FuncionarioAdd([FromBody] Funcionario funcionario) {
             
             Funcionario novoFuncionario = await _iFuncionario.AddFuncionario(funcionario);
 
@@ -43,7 +43,7 @@ namespace VisionTechAPI.Controllers
 
         [HttpPut("{id}")]
 
-        public async Task<ActionResult<Funcionario>> Atualizar([FromBody] Funcionario funcionario, int id) {
+        public async Task<ActionResult<Funcionario>> FuncionarioUpdate([FromBody] Funcionario funcionario, int id) {
             
             funcionario.Id = id;
 
@@ -54,7 +54,7 @@ namespace VisionTechAPI.Controllers
 
         [HttpDelete("{id}")]
 
-            public async Task<ActionResult<Funcionario>> Apagar(int id) {
+            public async Task<ActionResult<Funcionario>> FuncionarioDelete(int id) {
             
             bool apagado = await _iFuncionario.DeleteFuncionario(id);
 

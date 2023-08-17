@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { Funcionario } from '../models/Funcionario';
 import { Departamento } from '../models/Departamento';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { NavService } from '../nav/nav.service';
 import { faBuilding, faPlus, faPen, faTrashCan, faArrowLeft, faUser} from '@fortawesome/free-solid-svg-icons';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-funcionarios',
@@ -20,6 +21,7 @@ export class FuncionariosComponent implements OnInit {
   public funcionarioForm: FormGroup;
   public title = 'Funcionários';
   public funcionarioSelected: Funcionario;
+  public funcionarioSelectedDel: Funcionario;
   public funcionarios: Funcionario[]
   public departamentos: Departamento[];
   public departamentoSelected: Departamento;
@@ -32,13 +34,13 @@ export class FuncionariosComponent implements OnInit {
   faPen = faPen
   faTrashCan = faTrashCan
 
-
+  modalRef?: BsModalRef;
 
   progress: number;
   message: string;
   @Output() public onUploadFinished = new EventEmitter();
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private funcionarioService: FuncionarioService, private departamentoService: DepartamentoService, public nav: NavService) { 
+  constructor(private http: HttpClient, private fb: FormBuilder, private funcionarioService: FuncionarioService, private departamentoService: DepartamentoService, public nav: NavService, private modalService: BsModalService) { 
     this.createForm();
   }
 
@@ -47,6 +49,12 @@ export class FuncionariosComponent implements OnInit {
     this.loadFuncionario();
     this.loadDepartamentos();
   }
+
+  openModal(template: TemplateRef<any>, funcionario: Funcionario) {
+    this.funcionarioSelectedDel = funcionario;
+    this.modalRef = this.modalService.show(template);
+  }
+
 
   updateFotoValue(fileName: string) {
     this.funcionarioForm.get('foto').setValue(fileName);

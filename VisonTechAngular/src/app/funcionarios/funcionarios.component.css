@@ -103,13 +103,15 @@
     border: 1px solid black;
     padding: 40px;
     border-radius: 8px;
-    box-shadow: 7px 7px 40px black;
+    backdrop-filter: blur(5px);
+    box-shadow: 0px 0px 10px black;
 }
 
 .details{
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     height: 600px;
 }
 
@@ -205,4 +207,43 @@ tbody tr td:not(:last-of-type){
 .table-line > td:last-of-type{
     border-right: none;
     width: 100%;
+}
+
+
+.preview{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.preview img{
+    border: 1px solid black;
+    border-radius: 90px;
+    width: 180px;
+    height: 180px;
+}
+
+.img-input{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.input-file{
+    margin-top: 10px;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+    width: 65%;
+}
+
+.top-body-start{
+    display: flex;
+    align-self: flex-start;
+    padding-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 310px;
 }

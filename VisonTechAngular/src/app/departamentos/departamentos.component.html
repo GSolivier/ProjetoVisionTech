@@ -1,7 +1,7 @@
 
 <!-- Tabela de listagem de departamentos -->
 
-<div *ngIf="!departamentoSelecionado" class="gradient-background">
+<div *ngIf="!departamentoSelected" class="gradient-background">
   <h1 class="title">{{ title }}</h1>
     <div class="top-body">
       <button class="new" (click)="departamentoNew()">
@@ -31,9 +31,9 @@
               <fa-icon [icon]="faPen"></fa-icon>
             </button>
 
-            <button
+            <button (click)="openModal(template, departamentos)"
               class="delete"
-              (click)="departamentoDelete(departamentos.id)">
+              >
 
             <fa-icon [icon]="faTrashCan"></fa-icon>
 
@@ -45,19 +45,33 @@
   </table>
 </div>
 
+
+ <!-- Modal de warning para deletar um departamento -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Excluir departamento: {{departamentoSelectedDel.nome}}</h4>
+
+  </div>
+  <div class="modal-body">
+    <p>Tem certeza que deseja excluir o departamento {{departamentoSelectedDel.nome}}?</p>
+    <p style="color: red;">TODOS OS FUNCIONÁRIOS DESSE DEPARTAMENTO SERÃO DELETADOS!</p>
+    <button class="delete" (click)="departamentoDelete(departamentoSelectedDel.id)" (click)="modalRef?.hide()" style="width: 100px; margin-right: 20px;">Excluir</button>
+    <button class="edit" (click)="modalRef?.hide()" style="width: 100px;">Cancelar</button>
+  </div>
+</ng-template>
+
+
 <!-- Formulario de Edição de departamento e listagem dos funcionarios do departamento  -->
 
-
-
-<div *ngIf="departamentoSelecionado" class="gradient-background">
+<div *ngIf="departamentoSelected" class="gradient-background">
 
   
-  <div *ngIf="departamentoSelecionado.id != 0" class="departamento-put">
+  <div *ngIf="departamentoSelected.id != 0" class="departamento-put">
 
     <div class="top-body">
       <button class="btn btn-btn btn-back" (click)="back()"><fa-icon [icon]="faArrowLeft" size="2x"></fa-icon></button>
 
-      <h1>{{departamentoSelecionado.nome}}</h1>
+      <h1>{{departamentoSelected.nome}}</h1>
     
 
     </div>
@@ -85,15 +99,12 @@
     </div>
 
 
-
-
-
-  <button *ngIf="departamentoSelecionado.id != 0" class="new-user" (click)="funcionarioNew()"><fa-icon [icon]="faPlus"></fa-icon> <fa-icon [icon]="faUser" size="2x"></fa-icon></button>
+  <button *ngIf="departamentoSelected.id != 0" class="new-user" (click)="funcionarioNew()"><fa-icon [icon]="faPlus"></fa-icon> <fa-icon [icon]="faUser" size="2x"></fa-icon></button>
 
 
   <!-- Tabela de Cadastro de departamento e listagem dos funcionarios do departamento  -->
 
-  <div *ngIf="departamentoSelecionado.id == 0" class="departamento-post">
+  <div *ngIf="departamentoSelected.id == 0" class="departamento-post">
 
     <div class="top-body">
 
@@ -110,7 +121,7 @@
   
       <div class="mb-3">
         <label class="form-label">Sigla</label>
-        <input type="text" formControlName="sigla" class="form-control" />
+        <input type="text"  formControlName="sigla" class="form-control" />
       </div>
   
       <button
@@ -126,7 +137,7 @@
 
   <div class="funcionarios-info">
 
-    <table [ngClass]="{'col-sm-12': !funcionarioSelected, 'col-sm-6': funcionarioSelected}" *ngIf="departamentoSelecionado.id != 0" class="funcionarios-table">
+    <table [ngClass]="{'col-sm-12': !funcionarioSelected, 'col-sm-6': funcionarioSelected}" *ngIf="departamentoSelected.id != 0" class="funcionarios-table">
       <thead>
         <tr>
           <th >ID</th>
@@ -139,7 +150,7 @@
       <tbody class="funcionarios-tbody">
         <ng-container *ngFor="let funcionarios of funcionarios">
           <ng-container
-            *ngIf="departamentoSelecionado.id == funcionarios.departamentoId">
+            *ngIf="departamentoSelected.id == funcionarios.departamentoId">
   
             <tr class="table-line">
               <td class="number">{{ funcionarios.id }}</td>
@@ -171,7 +182,10 @@
         </ng-container>
       </tbody>
     </table>
-    
+
+
+    <!-- Cadastro de funcionario daquele departamento especifico -->
+
     <div *ngIf="funcionarioSelected" class="details" ngClass="col-sm-4">
       <div class="form">
         <form
@@ -203,7 +217,7 @@
               </div>
         
               <div class="mb-3">
-                <input placeholder="Digite o RG do funcionário..." type="text" formControlName="rg" class="form-control" />
+                <input placeholder="Digite o RG do funcionário..." type="text" formControlName="rg" class="form-control" mask="00.000.000-0" />
               </div>
 
             </div>
@@ -238,8 +252,8 @@
                   Selecione o departamento
                 </option>
     
-                <option value="{{ departamentoSelecionado.id }}">
-                  {{ departamentoSelecionado.nome }}
+                <option value="{{ departamentoSelected.id }}">
+                  {{ departamentoSelected.nome }}
                 </option>
     
                 <div></div>

@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { NgxMaskDirective, NgxMaskPipe, provideEnvironmentNgxMask, provideNgxMask } from 'ngx-mask';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +15,8 @@ import {HttpClientModule} from '@angular/common/http';
 import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
 import { FooterComponent } from './footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+
 
 @NgModule({
   declarations: [						
@@ -31,9 +35,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     HttpClientModule,
     ModalModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    NgxMaskDirective, 
+    NgxMaskPipe
   ],
-  providers: [BsModalService],
+  providers: [BsModalService, provideNgxMask()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
