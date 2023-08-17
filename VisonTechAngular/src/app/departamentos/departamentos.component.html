@@ -1,165 +1,265 @@
 
-<div *ngIf="!departamentoSelecionado">
+<!-- Tabela de listagem de departamentos -->
 
-  <div class="top-body">
-    <h1 class="title">{{title}}</h1>
-    <button class="new" (click)="departamentoNew()">Cadastrar Departamento</button>
-  </div>
+<div *ngIf="!departamentoSelecionado" class="gradient-background">
+  <h1 class="title">{{ title }}</h1>
+    <div class="top-body">
+      <button class="new" (click)="departamentoNew()">
+        <fa-icon [icon]="faPlus" size="1x"></fa-icon>
+        <fa-icon [icon]="faBuilding" size="2x"></fa-icon>
+      </button>
+    </div>
 
-  <table class="table table-hover">
+  <table class="departamentos-table">
     <thead>
       <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Nome</th>
-        <th scope="col">Sigla</th>
-        <th class="col"></th>
+        <th >ID</th>
+        <th >Departamento</th>
+        <th >Sigla</th>
+        <th></th>
       </tr>
     </thead>
-  
-    <tbody>
-      <tr *ngFor="let departamentos of departamentos"   >
-        <th scope="row" class="id">{{departamentos.id}}</th>
-        <td>{{departamentos.nome}}</td>
-        <td>{{departamentos.sigla}}</td>
+
+    <tbody class="departamentos-tbody">
+      <tr class="table-line" *ngFor="let departamentos of departamentos">
+        <td  class="number">{{ departamentos.id }}</td>
+        <td>{{ departamentos.nome }}</td>
+        <td>{{ departamentos.sigla }}</td>
         <td>
           <div class="options">
-            
-            <button  class="edit" (click)="departamentoSelect(departamentos)">Editar</button>
+            <button class="edit" (click)="departamentoSelect(departamentos)">
+              <fa-icon [icon]="faPen"></fa-icon>
+            </button>
 
-            <button class="delete" (click)="departamentoDelete(departamentos.id)">Excluir</button>
+            <button
+              class="delete"
+              (click)="departamentoDelete(departamentos.id)">
 
+            <fa-icon [icon]="faTrashCan"></fa-icon>
+
+            </button>
           </div>
         </td>
       </tr>
     </tbody>
-  
-  </table>
-
-</div>
-
-<div *ngIf="departamentoSelecionado">
-  <form [formGroup]="departamentoForm" (submit)="departamentoSubmit()">
-
-    <div class="mb-3">
-      <label class="form-label">Nome</label>
-      <input type="text" formControlName="nome" class="form-control"  >
-    </div>
-
-    <div class="mb-3">
-      <label  class="form-label">Sigla</label>
-      <input type="text" formControlName="sigla" class="form-control" >
-    </div>
-
-    <button type="submit" class="btn btn-primary" [disabled]="!departamentoForm.valid" >Salvar</button>
-    
-  </form>
-  <button class="btn btn-btn" (click)="back()">Voltar</button>
-  <button  (click)="funcionarioNew()">Cadastrar Funcionário</button>
-  
-  <table id="tableid" class="table table-hover" *ngIf="funcionarios.length">
-
-
-    
-    <thead>
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Foto</th>
-        <th scope="col">Nome</th>
-        <th class="col">Opções</th>
-      </tr>
-    </thead>
-  
-    <tbody>
-      <ng-container *ngFor="let funcionarios of funcionarios">
-  
-            <ng-container *ngIf="departamentoSelecionado.id == funcionarios.departamentoId" >
-  
-  <tr >
-  <th scope="row" class="id" >{{funcionarios.id}}</th>
-  <td><img [src]="createImgPath(funcionarios.id, funcionarios.foto)" style="width:60px; height:60px;" alt="Profile Pic"></td>
-  <td>{{funcionarios.nome}}</td>
-  
-  <td>
-    <div class="options">
-      <button (click)="funcionarioSelect(funcionarios)" class="edit">Editar</button>
-      <button class="delete" (click)="funcionarioDelete(funcionarios.id)">Excluir</button>
-    </div>
-  </td>
-  </tr>
-  
-  
-  </ng-container>
-  
-  
-      </ng-container>
-    </tbody>
-
-
-
-  
   </table>
 </div>
 
+<!-- Formulario de Edição de departamento e listagem dos funcionarios do departamento  -->
 
 
 
-<div *ngIf="funcionarioSelected" class="details">
-
-  <div class="form">
+<div *ngIf="departamentoSelecionado" class="gradient-background">
 
   
-    <form [formGroup]="funcionarioForm" (submit)="funcionarioSubmit(file.files)">
-  
+  <div *ngIf="departamentoSelecionado.id != 0" class="departamento-put">
+
+    <div class="top-body">
+      <button class="btn btn-btn btn-back" (click)="back()"><fa-icon [icon]="faArrowLeft" size="2x"></fa-icon></button>
+
+      <h1>{{departamentoSelecionado.nome}}</h1>
+    
+
+    </div>
+
+      <form class="form" [formGroup]="departamentoForm" (submit)="departamentoSubmit()">
+        <div class="mb-3">
+          <label class="form-label">Nome</label>
+          <input type="text" formControlName="nome" class="form-control" />
+        </div>
+    
+        <div class="mb-3">
+          <label class="form-label">Sigla</label>
+          <input type="text" formControlName="sigla" class="form-control" />
+        </div>
+    
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!departamentoForm.valid">
+          Salvar
+        </button>
+    
+      </form>
+
+    </div>
+
+
+
+
+
+  <button *ngIf="departamentoSelecionado.id != 0" class="new-user" (click)="funcionarioNew()"><fa-icon [icon]="faPlus"></fa-icon> <fa-icon [icon]="faUser" size="2x"></fa-icon></button>
+
+
+  <!-- Tabela de Cadastro de departamento e listagem dos funcionarios do departamento  -->
+
+  <div *ngIf="departamentoSelecionado.id == 0" class="departamento-post">
+
+    <div class="top-body">
+
+      <button class="btn btn-btn btn-back" (click)="back()"><fa-icon [icon]="faArrowLeft" size="2x"></fa-icon></button>
+      <h1>Novo Departamento</h1>
+
+    </div>
+
+    <form class="form" [formGroup]="departamentoForm" (submit)="departamentoSubmit()">
       <div class="mb-3">
         <label class="form-label">Nome</label>
-        <input type="text" formControlName="nome" class="form-control"  >
+        <input type="text" formControlName="nome" class="form-control" />
       </div>
   
       <div class="mb-3">
-        <label  class="form-label">RG</label>
-        <input type="text" formControlName="rg" class="form-control" >
+        <label class="form-label">Sigla</label>
+        <input type="text" formControlName="sigla" class="form-control" />
       </div>
+  
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!departamentoForm.valid">
+        Salvar
+      </button>
+    </form>
+    
+  </div>
 
 
-      <div class="mb-3">
-        <label for="form-label">Foto</label>
-        <input type="file" #file class="form-control" (change)="uploadSingle($event)" required>
+  <div class="funcionarios-info">
 
-      <input type="text"  formControlName="foto" class="form-control" value="{{updateFotoValue(file.files[0]?.name)}}`" style="display: none;">
+    <table [ngClass]="{'col-sm-12': !funcionarioSelected, 'col-sm-6': funcionarioSelected}" *ngIf="departamentoSelecionado.id != 0" class="funcionarios-table">
+      <thead>
+        <tr>
+          <th >ID</th>
+          <th >Foto</th>
+          <th >Nome</th>
+          <th >Opções</th>
+        </tr>
+      </thead>
+  
+      <tbody class="funcionarios-tbody">
+        <ng-container *ngFor="let funcionarios of funcionarios">
+          <ng-container
+            *ngIf="departamentoSelecionado.id == funcionarios.departamentoId">
+  
+            <tr class="table-line">
+              <td class="number">{{ funcionarios.id }}</td>
+              <td>
+                <img
+                  [src]="createImgPath(funcionarios.id, funcionarios.foto)"
+                  style="width: 60px; height: 60px; border-radius: 40px;"
+                  alt="Profile Pic"
+                />
+                
+              </td>
+              <td>{{funcionarios.nome}}</td>
+  
+              <td>
+                <div class="options">
+                  <button (click)="funcionarioSelect(funcionarios)" class="edit">
+                    <fa-icon [icon]="faPen"></fa-icon>
+                  </button>
+                  <button
+                    class="delete"
+                    (click)="funcionarioDelete(funcionarios.id)"
+                  >
+                  <fa-icon [icon]="faTrashCan"></fa-icon>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-container>
+      </tbody>
+    </table>
+    
+    <div *ngIf="funcionarioSelected" class="details" ngClass="col-sm-4">
+      <div class="form">
+        <form
+          [formGroup]="funcionarioForm"
+          (submit)="funcionarioSubmit(file.files)"
+        >
+          <div class="img-input">
 
-      <img *ngIf="funcionarioSelected.id != 0" [src]="createImgPath(funcionarioSelected.id, funcionarioSelected.foto)" style="width:60px; height:60px;" alt="ProfilePic">
-      
+            <div class="preview">
 
-      </div>
-      
-      <div class="select">
+              <img
+                *ngIf="funcionarioSelected.id != 0"
+                [src]="
+                  createImgPath(funcionarioSelected.id, funcionarioSelected.foto)
+                "
+                alt="ProfilePic"
+              />
+              <img
+                *ngIf="funcionarioSelected.id == 0"
+                src = "../../assets/placeholder.jpg"
+                alt="ProfilePic"
+              />
+            </div>
+
+            <div class="inputs">
+
+              <div class="mb-3">
+                <input placeholder="Digite o nome do funcionário..."  type="text" formControlName="nome" class="form-control" />
+              </div>
         
-        <label class="form-label">Departamento</label>
-
-        <div class="button-select">
-
-          <select name="" id="id-select" formControlName="departamentoId" >
-      
-            <option disabled selected value="0">Selecione o departamento</option>
-      
-            <option  value="{{departamentoSelecionado.id}}">{{departamentoSelecionado.nome}}</option>
-            
-            <div>
+              <div class="mb-3">
+                <input placeholder="Digite o RG do funcionário..." type="text" formControlName="rg" class="form-control" />
+              </div>
 
             </div>
-          </select>
 
-          <button type="submit" class="btn btn-primary"  [disabled]="!funcionarioForm.valid">Salvar</button>
 
-        </div>
-      </div>
-  
+          </div>
     
-  
-    </form>
+         
+
+            <input
+              type="file"
+              #file
+              class="form-control input-file"
+              (change)="uploadSingle($event)"
+              required
+            />
+    
+            <input
+              type="text"
+              formControlName="foto"
+              class="form-control"
+              value="{{ updateFotoValue(file.files[0]?.name) }}`"
+              style="display: none"
+            />
+
+    
+          <div class="select">
+    
+            <div class="button-select">
+              <select name="" id="id-select" formControlName="departamentoId">
+                <option disabled selected value="0">
+                  Selecione o departamento
+                </option>
+    
+                <option value="{{ departamentoSelecionado.id }}">
+                  {{ departamentoSelecionado.nome }}
+                </option>
+    
+                <div></div>
+              </select>
+    
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!funcionarioForm.valid"
+              >
+                Salvar
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
 
   </div>
 
-</div>
 
 

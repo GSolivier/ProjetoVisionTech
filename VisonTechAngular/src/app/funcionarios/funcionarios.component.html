@@ -1,106 +1,129 @@
-
-
-
 <div *ngIf="funcionarioSelected" class="details">
-
   <div class="form">
-
-  
-    <form [formGroup]="funcionarioForm" (submit)="funcionarioSubmit(file.files)">
-  
+    <form
+      [formGroup]="funcionarioForm"
+      (submit)="funcionarioSubmit(file.files)"
+    >
       <div class="mb-3">
         <label class="form-label">Nome</label>
-        <input type="text" formControlName="nome" class="form-control"  >
-      </div>
-  
-      <div class="mb-3">
-        <label  class="form-label">RG</label>
-        <input type="text" formControlName="rg" class="form-control" >
+        <input type="text" formControlName="nome" class="form-control" />
       </div>
 
+      <div class="mb-3">
+        <label class="form-label">RG</label>
+        <input type="text" formControlName="rg" class="form-control" />
+      </div>
 
       <div class="mb-3">
         <label for="form-label">Foto</label>
-        <input type="file" #file class="form-control" (change)="uploadSingle($event)">
+        <input
+          type="file"
+          #file
+          class="form-control"
+          (change)="uploadSingle($event)"
+        />
 
-      <input type="text" *ngIf="!funcionarioSelected.foto" formControlName="foto" class="form-control" value="{{updateFotoValue(file.files[0]?.name)}}`" style="display: none;"  >
-      <input *ngIf="funcionarioSelected.foto" type="text"  formControlName="foto" class="form-control" value="{{funcionarioSelected.foto}}`"  >
+        <input
+          type="text"
+          *ngIf="!funcionarioSelected.foto"
+          formControlName="foto"
+          class="form-control"
+          value="{{ updateFotoValue(file.files[0]?.name) }}`"
+          style="display: none"
+        />
 
-      <img *ngIf="funcionarioSelected.id != 0" [src]="createImgPath(funcionarioSelected.id, funcionarioSelected.foto)" style="width:60px; height:60px;" alt="ProfilePic">
-      
-
+        <img
+          *ngIf="funcionarioSelected.id != 0"
+          [src]="
+            createImgPath(funcionarioSelected.id, funcionarioSelected.foto)
+          "
+          style="width: 60px; height: 60px"
+          alt="ProfilePic"
+        />
       </div>
-      
+
       <div class="select">
-        
         <label class="form-label">Departamento</label>
 
         <div class="button-select">
+          <select name="" id="id-select" formControlName="departamentoId">
+            <option disabled selected value="0">
+              Selecione o departamento
+            </option>
 
-          <select name="" id="id-select" formControlName="departamentoId"  >
-      
-            <option disabled selected value="0">Selecione o departamento</option>
-      
-            <option  *ngFor="let departamentos of departamentos" value="{{departamentos.id}}">{{departamentos.nome}}</option>
-            
-            <div>
+            <option
+              *ngFor="let departamentos of departamentos"
+              value="{{ departamentos.id }}"
+            >
+              {{ departamentos.nome }}
+            </option>
 
-            </div>
+            <div></div>
           </select>
 
-          <button type="submit" class="btn btn-primary"  [disabled]="!funcionarioForm.valid">Salvar</button>
-
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="!funcionarioForm.valid"
+          >
+            Salvar
+          </button>
         </div>
       </div>
-  
-    
-  
     </form>
-
   </div>
-
 </div>
 
-<div *ngIf="!funcionarioSelected">
-
+<div *ngIf="!funcionarioSelected" class="gradient-background">
+  <h1 class="title">{{ title }}</h1>
   <div class="top-body">
-    <h1 class="title">{{title}}</h1>
-    <button class="new" (click)="funcionarioNew()">Cadastrar Funcionário</button>
+    <button  class="new" (click)="funcionarioNew()"><fa-icon [icon]="faPlus"></fa-icon> <fa-icon [icon]="faUser" size="2x"></fa-icon></button>
+
   </div>
-  
-  <table class="table table-hover">
+
+  <table>
     <thead>
       <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Foto</th>
-        <th scope="col">Nome</th>
-        <th scope="col">Departamento</th>
-        <th class="col">Opções</th>
+        <th >ID</th>
+        <th >Foto</th>
+        <th >Nome</th>
+        <th >Departamento</th>
+        <th >Opções</th>
       </tr>
     </thead>
-  
+
     <tbody>
-      <tr *ngFor="let funcionarios of funcionarios">
-        <th scope="row" class="id" >{{funcionarios.id}}</th>
-        <td><img [src]="createImgPath(funcionarios.id, funcionarios.foto)" style="width:60px; height:60px;" alt="aaaaaa"></td>
-        <td>{{funcionarios.nome}}</td>
+      <tr class="table-line" *ngFor="let funcionarios of funcionarios">
+        <td scope="row" class="number">{{ funcionarios.id }}</td>
+        <td>
+          <img
+            [src]="createImgPath(funcionarios.id, funcionarios.foto)"
+            style="width: 60px; height: 60px"
+            alt="aaaaaa"
+          />
+        </td>
+        <td>{{ funcionarios.nome }}</td>
         <td>
           <div *ngFor="let departamentos of departamentos">
             <div *ngIf="funcionarios.departamentoId == departamentos.id">
-                {{departamentos.sigla}}
+              {{ departamentos.sigla }}
             </div>
           </div>
         </td>
         <td>
           <div class="options">
-            <button (click)="funcionarioSelect(funcionarios)" class="edit">Editar</button>
-            <button class="delete" (click)="funcionarioDelete(funcionarios.id)">Excluir</button>
+            <button (click)="funcionarioSelect(funcionarios)" class="edit">
+              <fa-icon [icon]="faPen"></fa-icon>
+            </button>
+            <button
+              class="delete"
+              (click)="funcionarioDelete(funcionarios.id)"
+            >
+            <fa-icon [icon]="faTrashCan"></fa-icon>
+            </button>
           </div>
         </td>
       </tr>
     </tbody>
-  
   </table>
-
 </div>
-

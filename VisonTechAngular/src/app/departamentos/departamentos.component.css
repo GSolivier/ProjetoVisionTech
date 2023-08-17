@@ -1,13 +1,18 @@
-tbody tr:hover{
-    cursor: pointer;
+
+
+
+
+.gradient-background{
+    max-height:calc(100% - 115px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    margin-top: 30px;
 }
 
-
-* {
-    font-family:'Franklin Gothic', 'Arial Narrow', Arial, sans-serif;
-}
-
-
+/*Edição do cabeçalho da página: Titulo e botão de cadastrar novo usuário*/
 .title{
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     color: black;
@@ -15,13 +20,17 @@ tbody tr:hover{
 
 .top-body{
     display: flex;
-    justify-content: space-between;
-    padding-top: 40px;
-    margin-bottom: 20px;
+    padding-top: 30px;
+    align-self: flex-end;
+    padding-right: 135px;
 }
 
 .new{
-    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 10px;
+    width: 150px;
     height: 50px;
     background-color: rgb(0, 126, 0);
     color: white;
@@ -38,21 +47,31 @@ tbody tr:hover{
     box-shadow: 1px 2px 10px black;
 }
 
-table th,tr,td{
+.new-user{
+    display: flex;
     align-items: center;
-    text-align: center;
-    height: 100px;
+    justify-content: center;
+    align-self: flex-end;
+    padding-right: 10px;
+    width: 150px;
+    height: 50px;
+    background-color: rgb(0, 126, 0);
+    color: white;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border: none;
+    border-radius: 8px;
+    transition: all 0.2s;
+    margin-top: 10px;
 }
 
-.id{
-    padding-top: 35px;
+.new-user:hover{
+    color: rgb(0, 126, 0);
+    background-color: white;
+    border: 1px solid rgb(0, 126, 0);
+    box-shadow: 1px 2px 10px black;
 }
 
-table td {
-    padding-top: 35px;
-  align-content: center;
-}
-
+/*Estilização dos botões de editar e excluir da tabela*/
 .options{
     display: flex;
     height: 100%;
@@ -61,40 +80,200 @@ table td {
 
 .edit{
     border: none;
-    background-color: rgb(255, 255, 0);
+    background-color: orange;
     border-radius: 8px;
-    height: 30px;
-    width: 70px;
+    height: 40px;
+    width: 40px;
     transition: all 0.2s;
 }
 
 .edit:hover{
+    color: orange;
+    border: 1px solid orange;
+    background-color: white;
     box-shadow: 1px 1px 5px black;
 }
 
-.details{
-    width: max-content;
-    background-color: rgb(171, 194, 255);
-    border-radius: 8px;
-    height: 30px;
-    transition: all 0.2s;
-    border: none;
-}
-
-/* .details:hover{
-    box-shadow: 1px 1px 5px black;
-} */
 
 .delete{
     border: none;
-    background-color: rgb(255, 31, 31);
+    background-color: rgb(255, 0, 0);
     border-radius: 8px;
-    height: 30px;
-    width: 70px;
+    height: 40px;
+    width: 40px;
     transition: all 0.2s;
 }
 
 .delete:hover{
-    border: none;
+    background-color: white;
+    color: red;
+    border: 1px solid red;
     box-shadow: 1px 1px 5px black;
+}
+
+
+/*Estilização da tabela de listagem de departamentos*/
+.departamentos-table{
+    width: 80%;
+    margin-top: 20px;
+}
+
+thead, tbody{
+    display: block;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    
+}
+
+.departamentos-tbody{
+    flex-direction: row-reverse;
+    overflow-y: scroll;
+    height: 550px;
+}
+
+thead tr {
+    display: flex;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #0E4FB9;
+    padding-right: 10px;
+}
+
+table th {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    color: #0E4FB9;
+    font-size: 20px;
+}
+
+.table-line{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    text-align: center;
+    color: black;
+    font-size: 20px;
+    height: 100px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-radius: 8px;
+    background: linear-gradient(to right, rgba(223, 223, 223, 0.1), rgba(60, 3, 65,0.03)) padding-box,
+    linear-gradient(to right, rgba(255, 255, 255,.3), rgba(255, 255, 255,0)) border-box;
+    border-image-slice: 1;
+    margin-bottom: 20px;
+    border: 2px solid transparent;
+}
+
+tbody tr td:not(:last-of-type){
+    width: 100%;
+    height: 38px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 2px solid #0E4FB9;
+}
+
+
+.table-line > td:last-of-type{
+    border-right: none;
+    width: 100%;
+}
+
+/*Estilização da tabela de listagem de funcionarios e formulario de ediçao/postagem do departamento*/
+
+.funcionarios-tbody{
+    flex-direction: row-reverse;
+    overflow-y: scroll;
+    height: 300px;
+}
+
+.form{
+    width: 100%;
+    align-self: center;
+    border: 1px solid black;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 1px black;
+    backdrop-filter: blur(5px);
+}
+
+
+.select{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.button-select{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.select button{
+    width: 49%;
+}
+
+#id-select{
+    height: 38px;
+    width: 49%;
+    border: 0.5px solid rgb(207, 207, 207);
+    border-radius: 6px;
+    /* margin-right: 30px; */
+}
+
+.departamento-post, .departamento-put{
+    width: 80%;    
+}
+
+.departamento-post{
+    margin-top: 170px;
+}
+
+
+/*Estilização do formulario de edição de funcionarios*/
+
+.funcionarios-info{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+/* .funcionarios-table{
+    width: 100%;
+} */
+
+.preview{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.preview img{
+    border: 1px solid black;
+    border-radius: 50px;
+    width: 100px;
+    height: 100px;
+}
+
+.img-input{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.input-file{
+    margin-top: 10px;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+    width: 65%;
 }

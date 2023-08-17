@@ -7,6 +7,7 @@ import { DepartamentoService } from '../departamentos/departamento.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpErrorResponse, HttpEventType } from '@angular/common/http';
 import { NavService } from '../nav/nav.service';
+import { faBuilding, faPlus, faPen, faTrashCan, faArrowLeft, faUser} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-funcionarios',
@@ -24,6 +25,12 @@ export class FuncionariosComponent implements OnInit {
   public departamentoSelected: Departamento;
   public modo: string;
   novaFoto: string;
+
+  faPlus = faPlus
+  faArrowLeft = faArrowLeft
+  faUser = faUser
+  faPen = faPen
+  faTrashCan = faTrashCan
 
 
 

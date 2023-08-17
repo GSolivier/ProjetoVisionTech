@@ -7,6 +7,7 @@ import { DepartamentoService } from './departamento.service';
 import { FuncionarioService } from '../funcionarios/funcionario.service';
 import { NavService } from '../nav/nav.service';
 import { HttpClient, HttpErrorResponse, HttpEventType } from '@angular/common/http';
+import { faBuilding, faPlus, faPen, faTrashCan, faArrowLeft, faUser} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-departamentos',
@@ -25,6 +26,13 @@ export class DepartamentosComponent implements OnInit {
   public modo: string;
   modalRef?: BsModalRef;
   novaFoto: string;
+
+  faBuilding = faBuilding;
+  faPlus = faPlus;
+  faPen = faPen;
+  faTrashCan = faTrashCan;
+  faArrowLeft = faArrowLeft;
+  faUser = faUser
 
   progress: number;
   message: string;
@@ -107,6 +115,7 @@ export class DepartamentosComponent implements OnInit {
   }
 
   back(){
+    this.funcionarioSelected = null;
     this.departamentoSelecionado = null;
   }
 
@@ -233,11 +242,6 @@ export class DepartamentosComponent implements OnInit {
     )
   }
 
-  backF()
-  {
-    this.funcionarioSelected = null;
-  }
-
 
   public createImgPath = (id: number, foto: string) => { 
     return `http://localhost:5058/Resources/Images/${id}${foto}`; 
@@ -246,6 +250,14 @@ export class DepartamentosComponent implements OnInit {
   uploadSingle(event) {
     const fileName = event.target.files[0].name;
   }
+
+  selectImage()
+{
+  let input = document.createElement('input');
+  input.type = 'file';
+  input.accept="image/*";
+  input.click();
+}
 
 
 }
